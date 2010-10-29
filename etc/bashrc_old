@@ -1,13 +1,9 @@
-# See following for more information: http://www.infinitered.com/blog/?p=19
-
 alias reloadbash='source ~/src/dotfiles/etc/bash_profile'
-
 
 # Colors ----------------------------------------------------------
 export TERM=xterm-color
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export CLICOLOR=1 
-
 
 if [ "$OS" = "linux" ] ; then
   alias ls='ls --color=auto' # For linux, etc
@@ -38,19 +34,10 @@ export COLOR_LIGHT_GRAY='\033[0;37m'
 alias colorslist="set | egrep 'COLOR_\w*'"  # lists all the colors
 
 
-# we used these colors for the alternate svn and git completions...not sure why. 
-#BLACK="\[\033[0;38m\]"
-#RED="\[\033[0;31m\]"
-#RED_BOLD="\[\033[01;31m\]"
-#BLUE="\[\033[01;34m\]"
-#GREEN="\[\033[0;32m\]"
 
-alias colorslist="set | egrep 'COLOR_\w*'"  # Lists all the colors, uses vars in .bashrc_non-interactive
-
-
-
-# History -------------------------------------------------------------
+# History ----------------------------------------------------------
 export HISTCONTROL=ignoredups
+#export HISTCONTROL=erasedups
 export HISTFILESIZE=3000
 export HISTIGNORE="ls:cd:[bf]g:exit:..:...:ll:lla"
 alias h=history
@@ -60,25 +47,22 @@ hf(){
 
 
 # Completion -------------------------------------------------------
-# bash completion settings (actually, these are readline settings)
 bind "set completion-ignore-case on" # note: bind used instead of sticking these in .inputrc
-bind "set bell-style none" # no bell
 bind "set show-all-if-ambiguous On" # show list automatically, without double tab
+bind "set bell-style none" # no bell
 
-# Turn on advanced bash completion if the file exists (get it here: http://www.caliban.org/bash/index.shtml#completion)
+# Turn on advanced bash completion if the file exists 
 # Get it here: http://www.caliban.org/bash/index.shtml#completion) or 
 # on OSX: sudo port install bash-completion
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 if [ -f /opt/local/etc/bash_completion ]; then
-    . /opt/local/etc/bash_completion
+	. /opt/local/etc/bash_completion
 fi
 
 # git completion
 source ~/src/dotfiles/bin/git-completion.bash
-# ...and svn completion
-source ~/src/dotfiles/bin/svn-completion.bash
 
 # Add completion to source and .
 complete -F _command source 
@@ -94,22 +78,14 @@ set -o vi
 #bind -m vi-command -r 'v'
 
 
-export GIT_PS1_SHOWDIRTYSTATE=true
-export GIT_PS1_SHOWUNTRACKEDFILES=true
-
 # Prompts ----------------------------------------------------------
 #git_dirty_flag() {
   #git status 2> /dev/null | grep -c : | awk '{if ($1 > 0) print "⚡"}'
 #}
 
-         
-         
-
 prompt_func() {
     previous_return_value=$?;
-    prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]\$(__git_ps1)\$(__svn_ps1)\[${COLOR_NC}\] "
-    #prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]\$(parse_git_branch)\$(parse_svn_branch)\[${COLOR_NC}\] "
-    #prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+    prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
     #prompt="\033]0;${PWD}\007\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
     #prompt="\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_YELLOW}\]$(git_dirty_flag)\[${COLOR_NC}\] "
 
@@ -122,21 +98,12 @@ prompt_func() {
 }
 PROMPT_COMMAND=prompt_func
 
-
-
-#Matt's previous prompts, most recent to least: 
-# export PS1="$GREEN\w$RED\$(parse_git_branch)\$(parse_svn_branch) $GREEN>$BLACK " # note this doesn't use the same COLOR_* variables, it uses slightly different ones. But it works.
-# export PS1='\[\e[0;32m\]\w\[\e[1;34m\]$(__git_ps1 " (%s)")\[\e[0;32m\] > \[\e[0m\]\]'  # Primary prompt with only a path -- this one seemed to cause issues with multiple lines
-# export PS1='\...@\h:\w$(__git_ps1 " (%s)")$ '
-# export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
-# ...and a couple that came from twerth's original dotfiles branch:
 # export PS1="\[${COLOR_GREEN}\]\w\[${COLOR_NC}\] > "  # Primary prompt with only a path
 # export PS1="\[${COLOR_RED}\]\w > \[${COLOR_NC}\]"  # Primary prompt with only a path, for root, need condition to use this for root
 # export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
-
 # This runs before the prompt and sets the title of the xterm* window.  If you set the title in the prompt
 # weird wrapping errors occur on some systems, so this method is superior
-# export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} ${PWD}"; echo -ne "\007"'  # user@host path
+#export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/} ${USER}@${HOSTNAME%%.*}"; echo -ne "\007"'  # user@host path
 
 export PS2='> '    # Secondary prompt
 export PS3='#? '   # Prompt 3
@@ -160,15 +127,16 @@ cl() { cd $1; ls -la; }
 #    You can subsequently move to one of the saved directories by using cd with
 #    the abbreviation you chose. Eg. cd ms  (Note that no '$' is necessary.)
 if [ ! -f ~/.dirs ]; then  # if doesn't exist, create it
-	touch ~/.dirs
+  touch ~/.dirs
 fi
 
 alias show='cat ~/.dirs'
 save (){
-	command sed "/!$/d" ~/.dirs > ~/.dirs1; \mv ~/.dirs1 ~/.dirs; echo "$@"=\"`pwd`\" >> ~/.dirs; source ~/.dirs ; 
-}
-source ~/.dirs  # Initialization for the above 'save' facility: source the .sdirs file
+  command sed "/!$/d" ~/.dirs > ~/.dirs1; \mv ~/.dirs1 ~/.dirs; echo "$@"=\"`pwd`\" >> ~/.dirs; source ~/.dirs ; 
+}  #"
+source ~/.dirs  # Initialization for the above 'save' facility: source the .sdirs file 
 shopt -s cdable_vars # set the bash option so that no '$' is required when using the above facility
+
 
 
 # Editors ----------------------------------------------------------
@@ -180,10 +148,25 @@ export GIT_EDITOR='vim'
 alias v=vim
 alias mvimt='mvim --remote-tab'
 
+
+
+# Security ---------------------------------------------------------
+
+# Folder shared by a group
+# chmod g+s directory 
+#find /foo -type f -print | xargs chmod g+rw,o-rwx,u+rw
+#find /foo -type d -print | xargs chmod g+rwxs,o-rwx,u+rwx
+
+# this might work just the same (not tested)
+# chmod -R g+rwXs,o-rwx,u+rwX /foo
+
+
+
 # Sluething----------------------------------------------------
 findportuser() {
     lsof -i :"$1"
 }
+
 
 
 # Other aliases ----------------------------------------------------
@@ -192,9 +175,6 @@ alias la='ls -a'
 alias lla='ls -lah'
 
 # Search
-# There used to be search functions & aliases defined here, but I moved them out to scripts
-# because they wouldn't source on my Mac (Leopard...perhaps it's a bash version thing?)
-  
 if type -P ack &>/dev/null ; then 
   # Use ack for grepping and find if ack is available
   g(){
@@ -208,10 +188,12 @@ if type -P ack &>/dev/null ; then
   }
 else
   g(){
-    grep -Ri --exclude=*.svn* $1 *
+    grep -Ri $1 *
+  }
+  f(){
+    find . -iname "$1"
   }
 fi
-
 
 # Misc
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
@@ -225,9 +207,7 @@ fi
 alias systail='tail -f /var/log/system.log'
 alias m='more'
 
-alias df='df -h'
-
-alias xtidy="tidy -m -i -xml" # beautify XML
+alias df='df -h' # Show disk usage
 
 # Shows most used commands, cool script I got this from: http://lifehacker.com/software/how-to/turbocharge-your-terminal-274317.php
 alias profileme="history | awk '{print \$2}' | awk 'BEGIN{FS=\"|\"}{print \$1}' | sort | uniq -c | sort -n | tail -n 20 | sort -nr"
@@ -243,16 +223,24 @@ killhard() {
 
 
 # Bring in the other files ----------------------------------------------------
-#  some handy help functions for often-used programs
 source ~/.bashrc_help
-#  some handy application-specific aliases
 source ~/.bashrc_app_specific
-#  local stuff, not copied to other machines, not on github 
 if [ -f ~/.bashrc_local ]; then
 	source ~/.bashrc_local
 fi
-#  environment variables for various tools
-if [ -f ~/.bashrc_envs ]; then
-	source ~/.bashrc_envs
-fi
 
+
+# Test ------------------------------------------------------------------------ 
+
+#if [ "$OS" = "linux" ] ; then
+#elif
+#else
+#fi
+
+#if [ -z "$PS1" ]; then
+  #echo 'non-interactive shell'
+  ### non-interactive shells (only)
+#else
+  #echo 'interactive shell'
+  ### interactive shells (only)
+#fi

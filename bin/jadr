@@ -1,0 +1,9 @@
+#!/bin/sh
+# Execute jad upon a whole tree of class files.  
+# doesn't actually extract the jar yet... just decompiles a bunch of .class files
+
+#find $1 -name "*.class" -exec  bash -c "jad -r -s .java -ff -o -d `pwd`/src {} "  \;
+echo "Executing  jad  -o -r -sjava -dsrc '$1/**/*.class' " 
+#jad -o -r -sjava -dsrc './**/*.class'
+jad  -o -r -sjava -dsrc "$1/**/*.class"
+

@@ -26,6 +26,10 @@
 " | Put machine/user specific settings in ~/.vimrc.local                      |
 " -----------------------------------------------------------------------------  
 
+" Enable pathogen, which lets us put plugins in their own directories instead
+" of the standard syntax, plugin, etc. directories.
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
 
 set nocompatible
 let mapleader = ","
@@ -235,6 +239,7 @@ map <Leader>f :CommandT<CR>
 " I'm using CommandT for main searching, but it doesn't do buffers, so I'm
 " using FuzzyFinder for that
 map <Leader>b :FufBuffer<CR>
+"map ,f :FuzzyFinderTextMate<CR>
 "let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
 
@@ -295,3 +300,5 @@ endif
 "match LongLineWarning '\%120v.*'
 
 "autocmd User ~/git/some_folder/* call Tabstyle_spaces() | let g:force_xhtml=1
+"
+"

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Originally defined as a function in bashrc, but that was giving me problems (heaven knows why) so I moved it out to a script.
+
+if type -P ack &>/dev/null ; then # Use ack for grepping and find if ack is available
+    ack -i -g ".*$@[^\/]*$" | highlight blue ".*/" green "$@[^/]"
+else 
+    find . -iname "$1"
+fi 

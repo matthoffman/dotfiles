@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# the core command here originally came from a forum post, and the visual sugar around it 
+# came from the "investigate" script, which came from http://github.com/twerth/dotfiles
+# Investigate does a far better job at what it does, but this does well enough for the 
+# rare times it's necessary.
+
+
+#trap ctrl-c to force exit
+trap exit INT
+
+if [ $# -ne 2 ]  
+then
+  echo "Usage:  $0 <directory to search> <filename to search for> "
+  exit 1
+fi
+
+echo
+echo "Looking for $2 starting in $1 (recursive) " | highlight purple "^.*:"
+echo
+echo "Located in these jars ------------------------------------------------------------------------------" | highlight purple ".*"
+echo
+find "$1" -name "*.jar" -a -exec bash -c "jar tvf {} | grep $2" \; -print
+

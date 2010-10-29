@@ -1,0 +1,15 @@
+[submodule "etc/vim/bundle/fugitive"]
+	path = etc/vim/bundle/fugitive
+	url = http://github.com/tpope/vim-fugitive.git
+[submodule "etc/vim/bundle/snipmate"]
+	path = etc/vim/bundle/snipmate
+	url = http://github.com/msanders/snipmate.vim.git
+[submodule "etc/vim/bundle/command-t"]
+	path = etc/vim/bundle/command-t
+	url = http://github.com/wincent/Command-T.git
+[submodule "etc/vim/bundle/fuzzyfinder"]
+	path = etc/vim/bundle/fuzzyfinder
+	url = http://github.com/vim-bundles/fuzzyfinder.git
+[submodule "etc/vim/bundle/nerdtree"]
+	path = etc/vim/bundle/nerdtree
+	url = http://github.com/scrooloose/nerdtree.git

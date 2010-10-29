@@ -1,5 +1,10 @@
 # See following for more information: http://www.infinitered.com/blog/?p=10
 
+# Typically, I'd source in a swath of environment variables here, since bash_profile
+# is loaded on login, while .bashrc is just loaded when starting a new local shell. 
+# But we source in .bashrc below, so it's safe to just put the environment variables
+# in a subscript called by bashrc (in this case, bashrc_envs)
+
 # Identify OS and Machine -----------------------------------------
 export OS=`uname -s | sed -e 's/  */-/g;y/ABCDEFGHIJKLMNOPQRSTUVWXYZ/abcdefghijklmnopqrstuvwxyz/'`
 export OSVERSION=`uname -r`; OSVERSION=`expr "$OSVERSION" : '[^0-9]*\([0-9]*\.[0-9]*\)'`
@@ -11,16 +16,16 @@ export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 # Path ------------------------------------------------------------
 if [ "$OS" = "darwin" ] ; then
-  export PATH=/opt/local/bin:/opt/local/sbin:$PATH  # OS-X Specific, with MacPorts and MySQL installed
-  #export PATH=/opt/local/bin:/opt/local/sbin:$PATH  # OS-X Specific, with MacPorts installed
+  PATH=~/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:/opt/local/libexec/git-core:$PATH  # OS-X Specific, with MacPorts and MySQL installed
+  #PATH=${PATH}:/Library/Frameworks/Python.framework/Versions/Current/bin
 fi
 
 if [ -d ~/bin ]; then
-	export PATH=~/bin:$PATH  # add your bin folder to the path, if you have it.  It's a good place to add all your scripts
+	export PATH=~/bin:/usr/local/bin:$PATH  # add your bin folder to the path, if you have it.  It's a good place to add all your scripts
 fi
 
-if [ -d ~/cl/bin ]; then
-	export PATH=~/cl/bin:$PATH  # add your bin folder to the path, if you have it
+if [ -d ~/src/dotfiles/bin ]; then
+	export PATH=~/src/dotfiles/bin:$PATH  # add your bin folder to the path, if you have it
 fi
 
 
@@ -32,9 +37,9 @@ source ~/.bashrc
 
 # Hello Messsage --------------------------------------------------
 echo -e "Kernel Information: " `uname -smr`
-echo -e "`bash --version`"
-echo -ne "Uptime: "; uptime
-echo -ne "Server time is: "; date
+echo -e "${COLOR_BROWN}`bash --version`"
+echo -ne "${COLOR_GRAY}Uptime: "; uptime
+echo -ne "${COLOR_GRAY}Server time is: "; date
 
 
 
