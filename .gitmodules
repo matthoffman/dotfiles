@@ -16,3 +16,6 @@
 [submodule "etc/vim/bundle/autocomplpop"]
 	path = etc/vim/bundle/autocomplpop
 	url = http://github.com/vim-scripts/AutoComplPop.git
+[submodule "etc/vim/bundle/scala-vim-support"]
+	path = etc/vim/bundle/scala-vim-support
+	url = http://github.com/rosstimson/scala-vim-support.git
