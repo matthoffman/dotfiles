@@ -21,13 +21,13 @@ my home folder, so I prefer to store them without the . (gitignore rather than
 .gitignore), then I add the dot in the link.  So if you use one, make sure you 
 put the dot back.
 
+  
   * ~
-  ** src
-  *** dotfiles
-  **** bin
-  **** docs
-  **** etc
-  ***** vim
+  * * src
+  * ** dotfiles
+  * *** bin
+  * *** etc
+  * **** vim
           
 Installation 
 ============
