@@ -1,12 +1,13 @@
 export MAVEN_HOME=$HOME/tools/maven
 export M2_HOME=$HOME/tools/maven
-export GROOVY_HOME=$HOME/tools/groovy
+#export GROOVY_HOME=$HOME/tools/groovy
+export GROOVY_HOME=/opt/local/share/java/groovy
 export ANT_HOME=$HOME/tools/apache-ant-1.7.0
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home/
 export GRADLE_HOME=$HOME/tools/gradle
 export SCALA_HOME=$HOME/tools/scala
 export GRAILS_HOME=$HOME/tools/grails
-export GROOVY_HOME=$HOME/tools/groovy
+#export GROOVY_HOME=$HOME/tools/groovy
 export SCALA_C_DIR=$HOME/src/scala/continuations
 
 PATH=$MAVEN_HOME/bin:$PATH:$ANT_HOME/bin:$GRADLE_HOME/bin:$SCALA_HOME/bin:$GRAILS_HOME/bin:$GROOVY_HOME/bin

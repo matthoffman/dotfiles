@@ -19,3 +19,15 @@
 [submodule "etc/vim/bundle/scala-vim-support"]
 	path = etc/vim/bundle/scala-vim-support
 	url = http://github.com/rosstimson/scala-vim-support.git
+[submodule "etc/vim/bundle/vim-vividchalk"]
+	path = etc/vim/bundle/vim-vividchalk
+	url = http://github.com/tpope/vim-vividchalk.git
+[submodule "etc/vim/bundle/vim-surround"]
+	path = etc/vim/bundle/vim-surround
+	url = http://github.com/tpope/vim-surround.git
+[submodule "etc/vim/bundle/vim-repeat"]
+	path = etc/vim/bundle/vim-repeat
+	url = http://github.com/tpope/vim-repeat.git
+[submodule "etc/vim/bundle/vim-markdown"]
+	path = etc/vim/bundle/vim-markdown
+	url = http://github.com/tpope/vim-markdown.git
