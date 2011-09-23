@@ -1,6 +1,15 @@
 # See following for more information: http://www.infinitered.com/blog/?p=19
+if [[ $- == *i* ]] ; then
+  export IS_INTERACTIVE=true
+else
+  export IS_INTERACTIVE=false
+fi
 
-alias reloadbash='source ~/src/dotfiles/etc/bash_profile'
+if [[ -z $SSH_CONNECTION ]]; then
+  export IS_REMOTE=false
+else
+  export IS_REMOTE=true
+fi
 
 
 # Colors ----------------------------------------------------------
@@ -59,94 +68,99 @@ hf(){
 }
 
 
-# Completion -------------------------------------------------------
-# bash completion settings (actually, these are readline settings)
-bind "set completion-ignore-case on" # note: bind used instead of sticking these in .inputrc
-bind "set bell-style none" # no bell
-bind "set show-all-if-ambiguous On" # show list automatically, without double tab
+if [ $IS_INTERACTIVE = 'true' ] ; then # Interactive shell only
+  # Input stuff -------------------------------------------------------
+  bind "set completion-ignore-case on" # note: bind used instead of sticking these in .inputrc
+  bind "set show-all-if-ambiguous On" # show list automatically, without double tab
+  bind "set bell-style none" # no bell
 
-# Turn on advanced bash completion if the file exists (get it here: http://www.caliban.org/bash/index.shtml#completion)
-# Get it here: http://www.caliban.org/bash/index.shtml#completion) or 
-# on OSX: sudo port install bash-completion
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
-if [ -f /opt/local/etc/bash_completion ]; then
-    . /opt/local/etc/bash_completion
-fi
+  # Use vi command mode
+  #bind "set editing-mode vi"
+  #set -o vi
+  #bind -m vi-command -r 'v'
 
-# git completion
-source ~/src/dotfiles/bin/git-completion.bash
-# ...and svn completion
-source ~/src/dotfiles/bin/svn-completion.bash
-
-# Add completion to source and .
-complete -F _command source 
-complete -F _command .
+  shopt -s checkwinsize # After each command, checks the windows size and changes lines and columns
 
 
-# Misc -------------------------------------------------------------
-shopt -s checkwinsize # After each command, checks the windows size and changes lines and columns
 
-# Use vi command mode
-#bind "set editing-mode vi"
-set -o vi
-#bind -m vi-command -r 'v'
+  # Completion -------------------------------------------------------
 
-
-export GIT_PS1_SHOWDIRTYSTATE=true
-export GIT_PS1_SHOWUNTRACKEDFILES=true
-
-# Prompts ----------------------------------------------------------
-#git_dirty_flag() {
-  #git status 2> /dev/null | grep -c : | awk '{if ($1 > 0) print "⚡"}'
-#}
-
-         
-         
-
-prompt_func() {
-    previous_return_value=$?;
-    prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]\$(__git_ps1)\$(__svn_ps1)\[${COLOR_NC}\] "
-    #prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]\$(parse_git_branch)\$(parse_svn_branch)\[${COLOR_NC}\] "
-    #prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
-    #prompt="\033]0;${PWD}\007\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
-    #prompt="\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_YELLOW}\]$(git_dirty_flag)\[${COLOR_NC}\] "
-
-    if test $previous_return_value -eq 0
-    then
-        PS1="${prompt}> "
-    else
-        PS1="${prompt}\[${COLOR_RED}\]> \[${COLOR_NC}\]"
+    # Turn on advanced bash completion if the file exists 
+    # Get it here: http://www.caliban.org/bash/index.shtml#completion or 
+    # on OSX: sudo port install bash-completion
+    if [ -f /etc/bash_completion ]; then
+        . /etc/bash_completion
     fi
-}
-PROMPT_COMMAND=prompt_func
+    if [ -f /opt/local/etc/bash_completion ]; then
+        . /opt/local/etc/bash_completion
+    fi
 
+    # git completion
+    source ~/src/dotfiles/bin/git-completion.bash
+    # ...and svn completion
+    source ~/src/dotfiles/bin/svn-completion.bash
 
+    # Add completion to source and .
+    complete -F _command source 
+    complete -F _command .
+    
+    export GIT_PS1_SHOWDIRTYSTATE=true
+    export GIT_PS1_SHOWUNTRACKEDFILES=true
 
-#Matt's previous prompts, most recent to least: 
-# export PS1="$GREEN\w$RED\$(parse_git_branch)\$(parse_svn_branch) $GREEN>$BLACK " # note this doesn't use the same COLOR_* variables, it uses slightly different ones. But it works.
-# export PS1='\[\e[0;32m\]\w\[\e[1;34m\]$(__git_ps1 " (%s)")\[\e[0;32m\] > \[\e[0m\]\]'  # Primary prompt with only a path -- this one seemed to cause issues with multiple lines
-# export PS1='\...@\h:\w$(__git_ps1 " (%s)")$ '
-# export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
-# ...and a couple that came from twerth's original dotfiles branch:
-# export PS1="\[${COLOR_GREEN}\]\w\[${COLOR_NC}\] > "  # Primary prompt with only a path
-# export PS1="\[${COLOR_RED}\]\w > \[${COLOR_NC}\]"  # Primary prompt with only a path, for root, need condition to use this for root
-# export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
+    # Prompts ----------------------------------------------------------
+    #git_dirty_flag() {
+      #git status 2> /dev/null | grep -c : | awk '{if ($1 > 0) print "⚡"}'
+    #}
 
-# This runs before the prompt and sets the title of the xterm* window.  If you set the title in the prompt
-# weird wrapping errors occur on some systems, so this method is superior
-# export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} ${PWD}"; echo -ne "\007"'  # user@host path
+           
+           
 
-export PS2='> '    # Secondary prompt
-export PS3='#? '   # Prompt 3
-export PS4='+'     # Prompt 4
+    prompt_func() {
+        previous_return_value=$?;
+        if [ $IS_REMOTE = 'true' ] ; then
+          prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_PURPLE}\]\w\[${COLOR_GRAY}\]$(__git_ps1)$(__svn_ps1)\[${COLOR_NC}\] "
+        else
+          prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)$(__svn_ps1)\[${COLOR_NC}\] "
+        fi
+        #this works too:  prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]\$(__git_ps1)\$(__svn_ps1)\[${COLOR_NC}\] "
+        #prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]\$(parse_git_branch)\$(parse_svn_branch)\[${COLOR_NC}\] "
+        #prompt="\[\033]0;${USER} ${PWD}\007\]\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+        #prompt="\033]0;${PWD}\007\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_NC}\] "
+        #prompt="\[${COLOR_GREEN}\]\w\[${COLOR_GRAY}\]$(__git_ps1)\[${COLOR_YELLOW}\]$(git_dirty_flag)\[${COLOR_NC}\] "
 
-function xtitle {  # change the title of your xterm* window
-  unset PROMPT_COMMAND
-  echo -ne "\033]0;$1\007" 
-}
+        if test $previous_return_value -eq 0
+        then
+            PS1="${prompt}> "
+        else
+            PS1="${prompt}\[${COLOR_RED}\]> \[${COLOR_NC}\]"
+        fi
+    }
+    PROMPT_COMMAND=prompt_func
 
+    #Matt's previous prompts, most recent to least: 
+    # export PS1="$GREEN\w$RED\$(parse_git_branch)\$(parse_svn_branch) $GREEN>$BLACK " # note this doesn't use the same COLOR_* variables, it uses slightly different ones. But it works.
+    # export PS1='\[\e[0;32m\]\w\[\e[1;34m\]$(__git_ps1 " (%s)")\[\e[0;32m\] > \[\e[0m\]\]'  # Primary prompt with only a path -- this one seemed to cause issues with multiple lines
+    # export PS1='\...@\h:\w$(__git_ps1 " (%s)")$ '
+    # export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
+    # ...and a couple that came from twerth's original dotfiles branch:
+    # export PS1="\[${COLOR_GREEN}\]\w\[${COLOR_NC}\] > "  # Primary prompt with only a path
+    # export PS1="\[${COLOR_RED}\]\w > \[${COLOR_NC}\]"  # Primary prompt with only a path, for root, need condition to use this for root
+    # export PS1="\[${COLOR_GRAY}\]\u@\h \[${COLOR_GREEN}\]\w > \[${COLOR_NC}\]"  # Primary prompt with user, host, and path 
+
+    # This runs before the prompt and sets the title of the xterm* window.  If you set the title in the prompt
+    # weird wrapping errors occur on some systems, so this method is superior
+    # export PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*} ${PWD}"; echo -ne "\007"'  # user@host path
+
+    export PS2='> '    # Secondary prompt
+    export PS3='#? '   # Prompt 3
+    export PS4='+'     # Prompt 4
+
+    function xtitle {  # change the title of your xterm* window
+      unset PROMPT_COMMAND
+      echo -ne "\033]0;$1\007" 
+    }
+
+fi
 
 
 # Navigation -------------------------------------------------------
@@ -155,22 +169,7 @@ alias ...='cd .. ; cd ..'
 alias ....='... ; cd ..'
 cl() { cd $1; ls -la; } 
 
-# I got the following from, and mod'd it: http://www.macosxhints.com/article.php?story=20020716005123797
-#    The following aliases (save & show) are for saving frequently used directories
-#    You can save a directory using an abbreviation of your choosing. Eg. save ms
-#    You can subsequently move to one of the saved directories by using cd with
-#    the abbreviation you chose. Eg. cd ms  (Note that no '$' is necessary.)
-if [ ! -f ~/.dirs ]; then  # if doesn't exist, create it
-	touch ~/.dirs
-fi
-
-alias show='cat ~/.dirs'
-save (){
-	command sed "/!$/d" ~/.dirs > ~/.dirs1; \mv ~/.dirs1 ~/.dirs; echo "$@"=\"`pwd`\" >> ~/.dirs; source ~/.dirs ; 
-}
-source ~/.dirs  # Initialization for the above 'save' facility: source the .sdirs file
-shopt -s cdable_vars # set the bash option so that no '$' is required when using the above facility
-
+source ~/src/dotfiles/bin/bashmarks.sh
 
 # Editors ----------------------------------------------------------
 #export EDITOR='mate -w'  # OS-X SPECIFIC - TextMate, w is to wait for TextMate window to close
@@ -178,12 +177,23 @@ shopt -s cdable_vars # set the bash option so that no '$' is required when using
 export EDITOR='vim'  #Command line
 export GIT_EDITOR='vim'
 #alias gvim='/Applications/MacVim.app/Contents/MacOS/vim -g'
-alias v=vim
-alias mvimt='mvim --remote-tab'
+
+if [ "$OS" = "darwin" ] ; then
+  alias v=mvim
+  alias vc=vim
+  alias vt='mvim --remote-tab'
+else
+  alias v=vim
+fi
 
 # Sluething----------------------------------------------------
 findportuser() {
     lsof -i :"$1"
+}
+
+monitor_traffic(){
+  # install ngrep with sudo port install ngrep
+  sudo ngrep -W byline -qld en1 "$1" 
 }
 
 
@@ -193,19 +203,17 @@ alias la='ls -a'
 alias lla='ls -lah'
 
 # Search
-# There used to be search functions & aliases defined here, but I moved them out to scripts
-# because they wouldn't source on my Mac (Leopard...perhaps it's a bash version thing?)
-  
+# Use ack for grepping and find if ack is available
+# sudo port install p5-app-ack
 if type -P ack &>/dev/null ; then 
-  # Use ack for grepping and find if ack is available
   g(){
-    ack -a $@ --color-match=green --color-filename=blue --smart-case
+    ack "$*" --all-types --color-match=green --color-filename=blue --smart-case
   }
   gw(){
-    ack -a $@ --color-match=green --color-filename=blue --word-regexp --smart-case
+    ack "$*" --all-types --color-match=green --color-filename=blue --word-regexp --smart-case
   }
   f(){
-    ack -a -i -g ".*$@[^\/]*$" | highlight blue ".*/" green "$@[^/]"
+    ack --all-types -i -g ".*$*[^\/]*$" | highlight blue ".*/" green "$*[^/]"
   }
 else
   g(){
@@ -214,16 +222,27 @@ else
 fi
 
 
+
 # Misc
+alias reloadbash='source ~/src/dotfiles/etc/bash_profile'
+
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
+alias m='more'
+alias top='top -o cpu' # os x
+
+alias df='df -h' # Show disk usage
 
 if [ "$OS" = "linux" ] ; then
-  alias processes_all='ps -aulx'
+  alias processes_all='ps -AFH'
 else
-  alias top='top -o cpu' # os x
+  alias processes_all='ps -Afjv'
 fi
 
-alias systail='tail -f /var/log/system.log'
+if [ "$OS" = "linux" ] ; then
+  alias systail='tail -f /var/log/syslog'
+else
+  alias systail='tail -f /var/log/system.log'
+fi
 alias m='more'
 
 alias df='df -h'
@@ -237,6 +256,8 @@ alias untar="tar xvzf"
 
 alias cp_folder="cp -Rpv" #copies folder and all sub files and folders, preserving security and dates
 
+alias mirror_website="wget -m -x -p --convert-links --no-host-directories --no-cache -erobots=off"
+
 killhard() {
     kill -9 "$1"
 }
@@ -244,16 +265,29 @@ killhard() {
 
 
 # Bring in the other files ----------------------------------------------------
+if [ $IS_INTERACTIVE = 'true' ] ; then
 #  some handy help functions for often-used programs
-source ~/.bashrc_help
-#  some handy application-specific aliases
-source ~/.bashrc_app_specific
-#  local stuff, not copied to other machines, not on github 
+  source ~/.bashrc_help
+
+  source ~/src/dotfiles/bin/mq/mq.sh # MySQL tools
+  #source ~/src/dotfiles/bin/rr/rr.sh # Rails tools
+  source ~/src/dotfiles/bin/gt/gt.sh # Git tools
+  source ~/src/dotfiles/bin/sv/sv.sh # SVN tools
+fi
+
 if [ -f ~/.bashrc_local ]; then
-	source ~/.bashrc_local
+  source ~/.bashrc_local
 fi
 #  environment variables for various tools
 if [ -f ~/.bashrc_envs ]; then
 	source ~/.bashrc_envs
 fi
 
+
+
+# Test ------------------------------------------------------------------------ 
+
+#if [ "$OS" = "linux" ] ; then
+#elif
+#else
+#fi
