@@ -122,7 +122,7 @@ set linebreak  " Wrap at word
 
 " Sets path to directory buffer was loaded from
 "autocmd BufEnter * lcd %:p:h
-
+au BufEnter /private/tmp/crontab.* setl backupcopy=yes
 
 " File Stuff ******************************************************************
 filetype plugin indent on
