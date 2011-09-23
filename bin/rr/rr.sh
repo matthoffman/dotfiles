@@ -13,28 +13,29 @@ alias rrshowcommands="echo -e '${COLOR_LIGHT_PURPLE}Available commands:
    ${COLOR_BLUE}rr${COLOR_NC}migrate${COLOR_BLUE}up
 '"
 
-rrserver(){
+rrserver() {
   if [ -f ./script/server ]; then
     ./script/server $@ # Rails < 3
   else
     rails server $@ # Rails 3
   fi
 }
-rrserverproduction(){
+
+rrserverproduction() {
   if [ -f ./script/server ]; then
     ./script/server -e production $@
   else
     rails server -e production $@
   fi
 }
-rrconsole(){
+rrconsole() {
   if [ -f ./script/server ]; then
     ./script/console $@
   else
     rails console $@
   fi
 }
-rrgenerate(){
+rrgenerate() {
   if [ -f ./script/server ]; then
     ./script/generate $@
   else
@@ -47,17 +48,17 @@ alias rrrakefind='rake -T | g '
 #alias rrake=rake
 #complete -C ~/cl/bin/rr/rake-completion.rb -o default rake rrrake
 
-rrtest(){
+rrtest() {
   date
   rake | highlight red " [1-9]0* failures" red " [1-9]0* errors"
   date
 }
 
-rrtestsingle(){
+rrtestsingle() {
   rake test:units TEST="$@" | awk -F"," '{printf("%20s%20s%20s%20s\n", $1,$2,$3,$4)}' | highlight red " [1-9]0* failures" red " [1-9]0* errors"
 }
 
-rrtestsummary(){
+rrtestsummary() {
   date
   rake | grep "tests," | awk -F"," '{printf("%20s%20s%20s%20s\n", $1,$2,$3,$4)}' | highlight red " [1-9]0* failures" red " [1-9]0* errors"
   date
