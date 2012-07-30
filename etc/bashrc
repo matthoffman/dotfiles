@@ -101,6 +101,8 @@ if [ $IS_INTERACTIVE = 'true' ] ; then # Interactive shell only
     source ~/src/dotfiles/bin/svn-completion.bash
 
     # Add completion to source and .
+    # note that bash-completion 2.0 breaks these lines. I haven't looked into how to fix them, because 
+    # bash-completion 2.0 breaks a lot of things for me. Like bash completion. 
     complete -F _command source 
     complete -F _command .
     
@@ -291,3 +293,9 @@ fi
 #elif
 #else
 #fi
+#gss= "git submodule status"
+alias gss="git submodule foreach git status | less"
+
+gsff() {
+  git submodule foreach \"$@ || :\"
+}
