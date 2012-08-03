@@ -100,4 +100,7 @@ gtgrep(){
   gt grep -n --ignore-case -e "$@" | highlight green "$@" blue "^.*\:"
 }
 
-complete -C ~/cl/bin/gt/complete_branch_list.rb -o default gtcheckout gtpushorigin
+if [ -n "$BASH_VERSION" ] 
+then
+  complete -C ~/cl/bin/gt/complete_branch_list.rb -o default gtcheckout gtpushorigin
+fi
