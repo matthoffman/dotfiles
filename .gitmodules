@@ -37,9 +37,6 @@
 [submodule "etc/vim/bundle/octave"]
 	path = etc/vim/bundle/octave
 	url = https://github.com/vim-scripts/octave.vim--.git
-[submodule "etc/vim/bundle/vim-colors-solarized.git"]
-	path = etc/vim/bundle/vim-colors-solarized.git
-	url = git://github.com/altercation/vim-colors-solarized.git
 [submodule "etc/vim/bundle/vim-colors-solarized"]
 	path = etc/vim/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
