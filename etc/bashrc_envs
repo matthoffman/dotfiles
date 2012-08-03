@@ -12,3 +12,4 @@ export SCALA_C_DIR=$HOME/src/scala/continuations
 export PLAY_HOME=$HOME/tools/play
 
 PATH=$MAVEN_HOME/bin:$PATH:$ANT_HOME/bin:$GRADLE_HOME/bin:$SCALA_HOME/bin:$GRAILS_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME
+export PATH

@@ -13,7 +13,8 @@ fi
 
 
 # Colors ----------------------------------------------------------
-export TERM=xterm-color
+#export TERM=xterm-color # Let the terminal export this!  Don't need to put it in a bashrc. 
+# Many terminals can instead support 256 colors, and will represent themselves as xterm-256color or similar.
 export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'
 export CLICOLOR=1 
 
