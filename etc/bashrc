@@ -95,6 +95,9 @@ if [ $IS_INTERACTIVE = 'true' ] ; then # Interactive shell only
     if [ -f /opt/local/etc/bash_completion ]; then
         . /opt/local/etc/bash_completion
     fi
+    if [ -f /usr/local/etc/bash_completion ]; then
+        . /usr/local/etc/bash_completion
+    fi
 
     # git completion
     source ~/src/dotfiles/bin/git-completion.bash
@@ -199,7 +202,6 @@ monitor_traffic(){
   sudo ngrep -W byline -qld en1 "$1" 
 }
 
-
 # Other aliases ----------------------------------------------------
 alias ll='ls -hl'
 alias la='ls -a'
@@ -300,3 +302,5 @@ alias gss="git submodule foreach git status | less"
 gsff() {
   git submodule foreach \"$@ || :\"
 }
+
+

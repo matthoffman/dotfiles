@@ -16,8 +16,8 @@ export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 # Path ------------------------------------------------------------
 if [ "$OS" = "darwin" ] ; then
-  PATH=~/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:/opt/local/libexec/git-core:$PATH  # OS-X Specific, with MacPorts and MySQL installed
-  MANPATH=/opt/local/man:$MANPATH
+  PATH=~/bin:/usr/local/bin:/usr/local/git/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/opt/local/libexec/git-core:$PATH  # OS-X Specific, with MacPorts and MySQL installed
+  MANPATH=/opt/local/man:/usr/local/man:$MANPATH
   #PATH=${PATH}:/Library/Frameworks/Python.framework/Versions/Current/bin
 fi
 
@@ -29,7 +29,11 @@ if [ -d ~/src/dotfiles/bin ]; then
 	export PATH=~/src/dotfiles/bin:~/src/dotfiles/bin/git-scripts:$PATH  # add your bin folder to the path, if you have it
 fi
 
-
+# Ruby ------
+if [ -d $HOME/.rbenv/bin ]; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
 
 # Load in .bashrc -------------------------------------------------
 source ~/.bashrc
