@@ -20,11 +20,6 @@ else
   link ~/src/dotfiles/etc/bashrc_help ~/.bashrc_help
   link ~/src/dotfiles/etc/bashrc_envs ~/.bashrc_envs
 
-  # vim
-  link ~/src/dotfiles/etc/vim/vimrc ~/.vimrc
-  link ~/src/dotfiles/etc/vim/gvimrc ~/.gvimrc
-  link ~/src/dotfiles/etc/vim ~/.vim
-
   # git
   link ~/src/dotfiles/etc/gitconfig ~/.gitconfig
   link ~/src/dotfiles/etc/gitignore ~/.gitignore
