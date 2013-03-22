@@ -1,3 +1,6 @@
 [submodule "bin/git-scripts"]
 	path = bin/git-scripts
 	url = git://github.com/jwiegley/git-scripts.git
+[submodule "etc/emacs.d"]
+	path = etc/emacs.d
+	url = git@github.com:matthoffman/emacs.d.git
