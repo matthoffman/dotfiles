@@ -233,7 +233,11 @@ alias reloadbash='source ~/src/dotfiles/etc/bash_profile'
 
 alias ducks='du -cksh * | sort -rn|head -11' # Lists folders and files sizes in the current folder
 alias m='more'
-alias top='top -o cpu' # os x
+if [ "$OS" = "darwin" ] ; then 
+  alias top='top -o cpu' # os x. GNU top doesn't have a -o option.
+fi
+
+
 
 alias df='df -h' # Show disk usage
 
