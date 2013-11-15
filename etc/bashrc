@@ -212,13 +212,13 @@ alias lla='ls -lah'
 # sudo port install p5-app-ack
 if type -P ack &>/dev/null ; then 
   g(){
-    ack "$*" --all-types --color-match=green --color-filename=blue --smart-case
+    ack "$*" --color-match=green --color-filename=blue --smart-case
   }
   gw(){
-    ack "$*" --all-types --color-match=green --color-filename=blue --word-regexp --smart-case
+    ack "$*" --color-match=green --color-filename=blue --word-regexp --smart-case
   }
   f(){
-    ack --all-types -i -g ".*$*[^\/]*$" | highlight blue ".*/" green "$*[^/]"
+    ack -i -g ".*$*[^\/]*$" | highlight blue ".*/" green "$*[^/]"
   }
 else
   g(){

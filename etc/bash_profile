@@ -16,7 +16,7 @@ export PLATFORM="$MACHINE-$OS-$OSVERSION"
 
 # Path ------------------------------------------------------------
 if [ "$OS" = "darwin" ] ; then
-  PATH=~/bin:/usr/local/bin:/usr/local/git/bin:/usr/local/mysql/bin:/opt/local/bin:/opt/local/sbin:/opt/local/libexec/git-core:$PATH  # OS-X Specific, with MacPorts and MySQL installed
+  PATH=~/bin:/usr/local/bin:/usr/local/git/bin:/usr/local/mysql/bin:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/libexec/git-core:$PATH  # OS-X Specific, with MacPorts and MySQL installed
   MANPATH=/opt/local/man:/usr/local/man:$MANPATH
   #PATH=${PATH}:/Library/Frameworks/Python.framework/Versions/Current/bin
 fi
