@@ -1,6 +1,4 @@
 #!/bin/sh
 
-# Originally defined as a function in bashrc, but that was giving me problems (heaven knows why) so I moved it out to a script.
-
 ack $@ --color-match=green --color-filename=blue --word-regexp --smart-case
 

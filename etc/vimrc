@@ -1,0 +1,154 @@
+
+let s:darwin = has('mac')
+
+if has('nvim')
+	" set up the Python 3 virtualenv that Neovim itself will run with
+    let g:python3_host_proc = '/Users/matt/.venv/neovim/bin/python'
+endif
+
+" Directory for plugins using vim-plug (https://github.com/junegunn/vim-plug)
+call plug#begin('~/.vim/plugged')
+
+" Note that after adding new plugins, you need to reload .vimrc, then call
+" :PlugInstall
+
+
+" Other commands: 
+" :PlugUpdate [name ...] [#threads]	Install or update plugins
+" :PlugClean[!]	Remove unused directories (bang version will clean without prompt)
+" :PlugUpgrade	Upgrade vim-plug itself
+" :PlugStatus	Check the status of plugins
+" :PlugDiff	Examine changes from the previous update and the pending changes
+" :PlugSnapshot[!] [output path]	Generate script for restoring the current snapshot of the plugins
+
+" some sensible defaults
+Plug 'tpope/vim-sensible'
+
+" Allows configurable replacement to escape key (b/c Mac...)
+Plug 'zhou13/vim-easyescape'
+
+" Render Markdown preview in a browser
+" Run :Xmark, :Xmark> or :Xmark< to use. :Xmark! to turn off. Auto-reloads on save.
+if s:darwin
+  Plug 'junegunn/vim-xmark', { 'do': 'make' }
+endif
+
+" Fuzzy-find all the things. Some commands: 
+" Files [PATH] -> 	Files (similar to :FZF)
+" GFiles [OPTS] -> 	Git files (git ls-files)
+" GFiles? ->	Git files (git status)
+" Buffers ->	Open buffers
+" Colors ->		Color schemes
+" Ag [PATTERN] -> 	ag search result (ALT-A to select all, ALT-D to deselect all)
+" Rg [PATTERN] ->	rg search result (ALT-A to select all, ALT-D to deselect all)
+" Lines [QUERY]	-> 	Lines in loaded buffers
+" BLines [QUERY] ->	Lines in the current buffer
+" Tags [QUERY] ->	Tags in the project (ctags -R)
+" BTags [QUERY] ->	Tags in the current buffer
+" Marks ->	Marks
+" Windows ->	Windows
+" Locate PATTERN ->		locate command output
+" History ->	v:oldfiles and open buffers
+" History: ->	Command history
+" History/ ->	Search history
+" Snippets ->	Snippets (UltiSnips)
+" Commits ->	Git commits (requires fugitive.vim)
+" BCommits ->	Git commits for the current buffer
+" Commands ->	Commands
+" Maps ->	Normal mode mappings
+" Helptags ->	Help tags 
+" Filetypes	->	File types
+Plug 'junegunn/fzf', { 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" gtfo -> "Go to Terminal or File Manager" 
+" On Mac, always use iTerm
+" Mappings: 
+"   gof -> go to the current files directory in the file manager
+"   goF -> go to the current working directory in the file manager 
+"   got -> go to the current file's directory in the terminal
+"   goT -> go to the current working directory in the terminal
+let g:gtfo#terminals = { 'mac': 'iterm' }
+Plug 'justinmk/vim-gtfo' 
+
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+" This is Github; figured I don't need that currently...
+" Plug 'tpope/vim-rhubarb'
+if v:version >= 703
+  Plug 'mhinz/vim-signify'
+endif
+" Gives you :GV to open a quick commit browser. 
+" Also:
+"   :GV! for commits that affect hte current file
+"   :GV? fills the location list with the revisions of the current file
+" They also work in visual mode to track changes of selected lines.
+" While browsing commits: 
+"   o or <cr> on a commit to display the content of it
+"   o or <cr> on commits to display the diff in the range
+"   O opens a new tab instead
+"   gb for :Gbrowse
+"   ]] and [[ to move between commits
+"   . to start command-line with :Git [CURSOR] SHA à la fugitive
+"   q to close
+Plug 'junegunn/gv.vim'
+
+
+" some other editing-related plugins
+Plug 'tpope/vim-surround'
+" gc -> comment / uncomment stuff
+Plug 'tpope/vim-commentary'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" I think this auto-loads nerdtree if you load a directory? Not sure...
+augroup nerd_loader
+  autocmd!
+  autocmd VimEnter * silent! autocmd! FileExplorer
+  autocmd BufEnter,BufNew *
+        \  if isdirectory(expand('<amatch>'))
+        \|   call plug#load('nerdtree')
+        \|   execute 'autocmd! nerd_loader'
+        \| endif
+augroup END
+
+" Language-related plugins
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'groenewege/vim-less'
+Plug 'pangloss/vim-javascript'
+Plug 'derekwyatt/vim-scala'
+Plug 'honza/dockerfile.vim'
+Plug 'solarnz/thrift.vim'
+
+
+" Initialize plugin system
+call plug#end()
+
+let mapleader      = ' '
+let maplocalleader = ' '
+
+augroup vimrc
+  autocmd!
+augroup END
+
+" remap 'jk' or 'kj' to ESC
+let g:easyescape_chars = { "j": 1, "k": 1 }
+let g:easyescape_timeout = 100
+cnoremap jk <ESC>
+cnoremap kj <ESC>
+
+set autoindent
+set smartindent
+set lazyredraw
+set visualbell
+set backspace=indent,eol,start
+set incsearch
+set hidden
+set ignorecase smartcase
+" Not sure if I want 4 or 2 to be the default here...?
+set tabstop=4
+set shiftwidth=4
+
+" Lots of other things I might want here: https://github.com/junegunn/dotfiles/blob/master/vimrc

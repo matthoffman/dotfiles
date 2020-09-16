@@ -1,0 +1,284 @@
+" this file compiled from a variety of places and munged, mashed and mangled
+" to suit. 
+" Sources include (but not limited to): 
+"  - https://github.com/junegunn/dotfiles/blob/master/vimrc
+"  - https://github.com/saaguero/ideavimrc/blob/master/.ideavimrc
+"  - https://github.com/BIGduu/ideavimrc/blob/master/.ideavimrc
+"  - https://github.com/prontera/ideavimrc/blob/master/idea/idea.vimrc
+"  - https://github.com/yutakatay/dotfiles/blob/master/.ideavimrc
+"  ...etc. 
+"
+" When in doubt, I've tried to make the keybindings similar to Spacemacs,
+" to keep things sort of consistent.
+let mapleader = ' ' 
+
+set number
+set incsearch hlsearch
+set ignorecase smartcase
+" This joins vim's clipboard and intellij's, which is apparently what most
+" people want, but not what I'm used to:
+" set clipboard=unnamed
+set scrolloff=5
+set showmode
+
+" emulates vim-surround.  Commands: ys, cs, ds, S
+set surround
+" uses intellij's join with vim join ( J )
+set ideajoin
+" emulates vim-multicursor
+set multiple-cursors
+" emulates commentary.vim.  Commands: gcc, gc + motion, v_gc
+set commentary
+" emulates argtextobj.vim Additional text objects: aa, ia
+" so for example: 'daa'(delete-an-argument) 'cia'(change-inner-argument) 'via'(select-inner-argument)
+set argtextob
+" emulates vim-textobj-entire. Additional text objects: ae, ie
+set textobj-entire
+
+" 'to be released'
+" emulates vim-exchange. Commands: cx, cxx, X, cxc
+"set exchange
+
+" easier mappings for macros
+nnoremap - 	q
+nnoremap --	@a
+
+" use 'jk' to escape out of insert mode
+inoremap jk <Esc>
+"this may have been causing my funny delay/overselecting issue?
+"vnoremap jk <Esc>
+" quit visual mode
+vnoremap v <Esc>
+
+set timeout
+set timeoutlen=1000
+
+" valid values here are 'keep', 'select', or 'visual'. default is 'select'
+" none of them seem to work very well
+set idearefactormode=select
+
+
+" easy system copy and paste
+nnoremap <leader>y "*y
+nnoremap <leader>Y "*Y
+nnoremap <leader>p "*p
+nnoremap <leader>P "*P
+
+" controversial: have W and B move to the next or previous camelcase word,
+" instead of next or previous blank-separated word
+nnoremap W	:action EditorNextWordInDifferentHumpsMode<cr>
+vnoremap W	:action EditorNextWordInDifferentHumpsMode<cr>
+nnoremap B	:action EditorPrevWordInDifferentHumpsMode<cr>
+vnoremap B	:action EditorPrevWordInDifferentHumpsMode<cr>
+
+" clear search buffer when hitting <leader>return
+nnoremap <leader><cr>	:nohlsearch<cr>
+"nnoremap \ 				:nohlsearch<cr>
+
+" assorted actions
+"nnoremap <leader>w 	:action Switcher<cr>
+nnoremap <leader>\ 	:action VimFilePrevious<cr>
+nnoremap <leader>t 	:action FileStructurePopup<cr>
+nnoremap <leader>0 	<ESC>:action HideAllWindows<cr>
+nnoremap <leader>l 	<ESC>:action HighlightUsagesInFile<cr>
+nnoremap <leader>a 	<ESC>:action emacsIDEAs.AceJumpWord<cr>
+" in normal mode, K shows javadoc too
+nnoremap <leader>k 	:action QuickJavaDoc<cr>
+" j is also the prefix for "jump"
+nnoremap <leader>jd	:action QuickJavaDoc<cr>
+nnoremap <leader>!   :action ActivateTerminalToolWindow<cr>
+vnoremap <leader>!   :action Terminal.OpenInTerminal<cr>
+
+" errors
+nnoremap <leader>ee 	<ESC>:action ShowErrorDescription<cr>
+nnoremap <leader>en 	:action GotoNextError<cr>
+nnoremap <leader>ep 	:action GotoPreviousError<cr>
+nnoremap <leader>eN 	:action GotoPreviousError<cr>
+
+" find things, jump to things
+nnoremap <leader><leader> 	:action SearchEverywhere<cr>
+nnoremap <leader>/ 	      :action FindInPath<cr>
+nnoremap <leader>saf 	    :action FindInPath<cr>
+nnoremap <leader>sf        :action Find<cr>
+" maybe don't need 4 ways to do this...
+"noremap <leader>ss 	    :action FindInPath<cr>
+nnoremap <leader>sr 	      :action Replace<cr>
+nnoremap <leader>sar 	    :action ReplaceInPath<cr>
+" don't even know what 'go to symbol' is
+"noremap <leader>js	      :action GotoSymbol<cr>
+nnoremap <leader>ja	      :action GotoAction<cr>
+nnoremap <leader>jc	      :action GotoClass<cr>
+nnoremap <leader>jf	      :action GotoFile<cr>
+
+" Docker actions (TODO)
+" noremap <leader>D...
+
+" code refactoring
+"   not sure what prefix really makes sense here.
+"   for now putting them under 's' (along with search), like ':s/...'
+nnoremap <leader>se       :action RenameElement<cr>
+"nnoremap re 		:action RenameElement<cr>
+nnoremap <leader>so       :action Refactorings.QuickListPopupAction<cr>
+nnoremap <leader>sc       :action ReformatCode<cr>
+nnoremap <leader>si       :action AutoIndentLines<cr>
+nnoremap <leader>sg	      :action ChangeSignature<cr>
+
+" code navigation
+"   note reserved 'g_' keybindings: 
+"   https://github.com/JetBrains/ideavim/blob/master/src/com/maddyhome/idea/vim/package-info.java
+nnoremap <leader>i 	:action QuickImplementations<cr>
+" note that gd goes to definition already
+nnoremap <leader>] 	:action GotoImplementation<cr>
+nnoremap g] 		:action GotoImplementation<cr>
+nnoremap <leader>[ 	:action GotoSuperMethod<cr>
+nnoremap g[			:action GotoSuperMethod<cr>
+nnoremap gs			:action GotoSuperMethod<cr>
+nnoremap <leader>fu :action FindUsages<cr>
+nnoremap gt 		:action GotoTest<cr>
+nnoremap <leader>o 	<ESC>:action ShowFilePath<cr>
+nnoremap <leader>u  :action RecentChanges<cr>
+"RecentFiles
+"RecentLocations
+"
+
+" hierarchy
+"noremap ghc <ESC>:action CallHierarchy<cr>
+"noremap ght <ESC>:action TypeHierarchy<cr>
+"noremap ghm <ESC>:action MethodHierarchy<cr>
+nnoremap <leader>hc <ESC>:action CallHierarchy<cr>
+nnoremap <leader>ht <ESC>:action TypeHierarchy<cr>
+nnoremap <leader>hm <ESC>:action MethodHierarchy<cr>
+
+" go to next and previous _
+"    note reserved '[_' keybindings: [[, [], [m, [M, [#, [*
+nnoremap [c 	:action VcsShowPrevChangeMarker<cr>
+nnoremap ]c 	:action VcsShowNextChangeMarker<cr>
+nnoremap ]e 	:action GotoNextError<cr>
+nnoremap [e 	:action GotoPreviousError<cr>
+nnoremap ]g 		:action JumpToNextChange<cr>
+nnoremap [g 		:action JumpToLastChange<cr>
+nnoremap [q 	:action PreviousOccurence<cr>
+nnoremap ]q 	:action NextOccurence<cr>
+nnoremap [u		:action GotoNextElementUnderCaretUsage<cr>
+nnoremap ]u		:action GotoPrevElementUnderCaretUsage<cr>
+" these two are already the default
+nnoremap [m 	:action MethodUp<cr>
+nnoremap ]m 	:action MethodDown<cr>
+noremap [d    :action Diff.PrevChange<cr>
+noremap ]d    :action Diff.NextChange<cr>
+noremap [D    :action Diff.PrevConflict<cr>
+noremap ]D    :action Diff.NextConflict<cr>
+" analyze data flow in
+nnoremap [f     <ESC>:action SliceBackward<cr>
+" analyze data flow out
+nnoremap ]f     <ESC>:action SliceForward<cr>
+
+" diff view
+" note [d and ]d defined above for moving between changes
+"  intuition: , is the little < 
+noremap <leader>,     :action Diff.ApplyRightSide<cr>
+noremap <leader>.     :action Diff.ApplyLeftSide<cr>
+noremap <leader><     :action Diff.AppendRightSide<cr>
+noremap <leader>>     :action Diff.AppendLeftSide<cr>
+
+" running and debugging
+"    not yet sure if these should be 'r' or somewhere else
+nnoremap <leader>R :action RunClass<cr>
+" note that i currently have this mapped to 'refactor' 
+"nnoremap <leader>r :action Run<cr> 
+nnoremap <leader>rr 	:action Run<cr>
+nnoremap <leader>rc 	:action RunCoverage<cr>
+" this one doesn't work, and I don't know why...
+nnoremap <leader>ro 	:action ChooseRunConfiguration<cr>
+" this one isn't consistent, but trying to work around the issue w/ _ro
+nnoremap <leader>cr 	:action ChooseRunConfiguration<cr>
+"nnoremap <leader>rc 	:action ChooseRunConfiguration<cr>
+nnoremap <leader>re 	:action EditRunConfigurations<cr>
+nnoremap <leader>ra 	:action RunAnything<cr>
+nnoremap <leader>D 		:action DebugClass<cr>
+nnoremap <leader>dd 	:action Debug<cr>
+nnoremap <leader>do		:action ChooseDebugConfiguration<cr>
+" this one isn't consistent, but trying to work around the issue w/ _do
+nnoremap <leader>cd		:action ChooseDebugConfiguration<cr>
+nnoremap <leader>dc		:action ChooseDebugConfiguration<cr>
+nnoremap <leader>b 		:action ToggleLineBreakpoint<cr>
+
+" I'd like a common prefix for these, too... right now giving them a different leader
+" motion commands seem intuitive for me
+nnoremap ,j  :action StepOver<cr>
+nnoremap ,l  :action SmartStepInto<cr>
+nnoremap ,h  :action StepOut<cr>
+nnoremap ,k  :action Resume<cr>
+nnoremap ,e  :action EvaluateExpression<cr>
+nnoremap ,c  :action RunToCursor<cr>
+
+" git things
+" note that vim-commentary uses gcc and gc+motion, so this is sort of stepping on those, but with <leader>. Which is confusing.
+nnoremap <leader>go 	:action Vcs.QuickListPopupAction<cr>
+" git commit
+nnoremap <leader>gk 	:action CheckinProject<cr>
+" git stash
+nnoremap <leader>gs 	:action Git.Stash<cr>
+nnoremap <leader>gcb  :action Git.CompareWithBranch<cr>
+nnoremap <leader>gcc  :action Compare.SameVersion<cr>
+nnoremap <leader>gcv  :action Compare.LastVersion<cr>
+nnoremap <leader>gcl  :action Git.Log.DeepCompare<cr>
+" git blame
+nnoremap <leader>gb  :action Annotate
+nnoremap <leader>gl  :action Git.Log
+
+
+" window commands
+nnoremap <leader>w<tab>     :action NextEditorTab<cr>
+nnoremap <leader>w<S-Tab>   :action PrevEditorTab<cr>
+nnoremap <leader>w/         :action SplitVertically<cr>
+nnoremap <leader>w|         :action SplitVertically<cr>
+nnoremap <leader>w-         :action SplitHorizontally<cr>
+nnoremap <leader>w+         :action ChangeSplitOrientation<cr>
+nnoremap <leader>wr         :action MoveEditorToOppositeTabGroup<cr>
+" these actually split horz. or vert. and move the tab there (and focus)
+"noremap <leader>wJ        :action MoveTabDown<cr>
+"noremap <leader>wL        :action MoveTabRight<cr>
+nnoremap <leader>wJ         :action MoveEditorToOppositeTabGroup<cr>
+nnoremap <leader>wL         :action MoveEditorToOppositeTabGroup<cr>
+nnoremap <leader>wH         :action MoveEditorToOppositeTabGroup<cr>
+nnoremap <leader>wK         :action MoveEditorToOppositeTabGroup<cr>
+nnoremap <leader>wh         :action NextSplitter<cr>
+nnoremap <leader>wj         :action NextSplitter<cr>
+nnoremap <leader>wl         :action PrevSplitter<cr>
+nnoremap <leader>wk         :action PrevSplitter<cr>
+nnoremap <leader>wa         :action OpenEditorInOppositeTabGroup<cr>
+nnoremap <leader>wo         :action TabsActions<cr>
+
+" Other things that we may want: 
+" Unsplit
+" UnsplitAll
+" EditorPopupMenu
+" EditorPopupMenu.GoTo
+" EditorPopupMenu.Run
+
+" built-in navigation to navigated items works better
+nnoremap <c-o> 	:action Back<cr>
+nnoremap <c-i> 	:action Forward<cr>
+" ...but preserve ideavim default behavior just in case
+nnoremap g<c-o> <c-o>
+nnoremap g<c-i> <c-i>
+
+" built in search looks better
+" I'm undecided about this one...I'm pretty used to vim search
+" nnoremap / 	:action Find<cr>
+" ...but preserve ideavim default search just in case 
+" nnoremap g/ /
+
+" Some interesting remappings from
+" https://github.com/junegunn/dotfiles/blob/master/ideavimrc, but I'm not
+" ready to commit to them yet
+" nnoremap gcc :action CommentByLineComment<cr>
+
+" Cursive
+" nnoremap <leader>W :action :cursive.actions.paredit/wrap-paren<cr>
+" nnoremap <leader>w[ :action :cursive.actions.paredit/wrap-square<cr>
+" nnoremap <leader>w{ :action :cursive.actions.paredit/wrap-curly<cr>
+" nnoremap <leader>w" :action :cursive.actions.paredit/wrap-quotes<cr>
+" nnoremap <leader>< :action :cursive.actions.paredit/barf-forwards<cr>
+" nnoremap <leader>> :action :cursive.actions.paredit/slurp-forwards<cr>
