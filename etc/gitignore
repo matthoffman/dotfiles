@@ -148,3 +148,14 @@ tags
 
 # asdf config
 .tool-versions
+
+# per-project env vars. We ignore these b/c they often contain creds.
+.env
+.env.aws
+.aws.env
+.aws.json
+.awscreds.json
+
+.terraform
+.gocoverage
+deployments/local.yaml

@@ -78,7 +78,7 @@ nnoremap <leader><cr>	:nohlsearch<cr>
 " assorted actions
 "nnoremap <leader>w 	:action Switcher<cr>
 nnoremap <leader>\ 	:action VimFilePrevious<cr>
-nnoremap <leader>t 	:action FileStructurePopup<cr>
+nnoremap <leader>fs :action FileStructurePopup<cr>
 nnoremap <leader>0 	<ESC>:action HideAllWindows<cr>
 nnoremap <leader>l 	<ESC>:action HighlightUsagesInFile<cr>
 nnoremap <leader>a 	<ESC>:action emacsIDEAs.AceJumpWord<cr>
@@ -86,8 +86,9 @@ nnoremap <leader>a 	<ESC>:action emacsIDEAs.AceJumpWord<cr>
 nnoremap <leader>k 	:action QuickJavaDoc<cr>
 " j is also the prefix for "jump"
 nnoremap <leader>jd	:action QuickJavaDoc<cr>
-nnoremap <leader>!   :action ActivateTerminalToolWindow<cr>
-vnoremap <leader>!   :action Terminal.OpenInTerminal<cr>
+"nnoremap <leader>!   :action ActivateTerminalToolWindow<cr>
+" 'OpenInTerminal' doesn't do what I thought it did. It opens a new Terminal window in the directory of the current file.
+"vnoremap <leader>!   :action Terminal.OpenInTerminal<cr>
 
 " errors
 nnoremap <leader>ee 	<ESC>:action ShowErrorDescription<cr>
@@ -227,7 +228,7 @@ nnoremap <leader>gcl  :action Git.Log.DeepCompare<cr>
 nnoremap <leader>gb  :action Annotate
 nnoremap <leader>gl  :action Git.Log
 
-
+nnoremap <leader>!   :action togglePowerModeII<cr>
 " window commands
 nnoremap <leader>w<tab>     :action NextEditorTab<cr>
 nnoremap <leader>w<S-Tab>   :action PrevEditorTab<cr>

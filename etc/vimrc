@@ -150,5 +150,7 @@ set ignorecase smartcase
 " Not sure if I want 4 or 2 to be the default here...?
 set tabstop=4
 set shiftwidth=4
+" show hidden files by default in NERDTree
+let NERDTreeShowHidden=1
 
 " Lots of other things I might want here: https://github.com/junegunn/dotfiles/blob/master/vimrc
