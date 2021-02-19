@@ -81,7 +81,7 @@ nnoremap <leader>\ 	:action VimFilePrevious<cr>
 nnoremap <leader>fs :action FileStructurePopup<cr>
 nnoremap <leader>0 	<ESC>:action HideAllWindows<cr>
 nnoremap <leader>l 	<ESC>:action HighlightUsagesInFile<cr>
-nnoremap <leader>a 	<ESC>:action emacsIDEAs.AceJumpWord<cr>
+nnoremap <leader>a 	<ESC>:action AceAction<cr>
 " in normal mode, K shows javadoc too
 nnoremap <leader>k 	:action QuickJavaDoc<cr>
 " j is also the prefix for "jump"
@@ -91,10 +91,11 @@ nnoremap <leader>jd	:action QuickJavaDoc<cr>
 "vnoremap <leader>!   :action Terminal.OpenInTerminal<cr>
 
 " errors
-nnoremap <leader>ee 	<ESC>:action ShowErrorDescription<cr>
-nnoremap <leader>en 	:action GotoNextError<cr>
-nnoremap <leader>ep 	:action GotoPreviousError<cr>
-nnoremap <leader>eN 	:action GotoPreviousError<cr>
+nnoremap <leader>e      :action ErrorsActionTree<cr>
+" nnoremap <leader>ee 	<ESC>:action ShowErrorDescription<cr>
+" nnoremap <leader>en 	:action GotoNextError<cr>
+" nnoremap <leader>ep 	:action GotoPreviousError<cr>
+" nnoremap <leader>eN 	:action GotoPreviousError<cr>
 
 " find things, jump to things
 nnoremap <leader><leader> 	:action SearchEverywhere<cr>
@@ -103,6 +104,7 @@ nnoremap <leader>saf 	    :action FindInPath<cr>
 nnoremap <leader>sf        :action Find<cr>
 " maybe don't need 4 ways to do this...
 "noremap <leader>ss 	    :action FindInPath<cr>
+noremap <leader>ss 	    :action SearchActionTree<cr>
 nnoremap <leader>sr 	      :action Replace<cr>
 nnoremap <leader>sar 	    :action ReplaceInPath<cr>
 " don't even know what 'go to symbol' is
@@ -123,6 +125,7 @@ nnoremap <leader>so       :action Refactorings.QuickListPopupAction<cr>
 nnoremap <leader>sc       :action ReformatCode<cr>
 nnoremap <leader>si       :action AutoIndentLines<cr>
 nnoremap <leader>sg	      :action ChangeSignature<cr>
+nnoremap <leader>S        :action RefactorActionTree<cr> 
 
 " code navigation
 "   note reserved 'g_' keybindings: 
@@ -140,7 +143,9 @@ nnoremap <leader>o 	<ESC>:action ShowFilePath<cr>
 nnoremap <leader>u  :action RecentChanges<cr>
 "RecentFiles
 "RecentLocations
-"
+
+" Not a fan of this, but not sure where else to put it. Maybe a big "g" submenu with Git?
+nnoremap <leader>n  :action CodeNavigationActionTree<cr>
 
 " hierarchy
 "noremap ghc <ESC>:action CallHierarchy<cr>
@@ -169,7 +174,7 @@ noremap [d    :action Diff.PrevChange<cr>
 noremap ]d    :action Diff.NextChange<cr>
 noremap [D    :action Diff.PrevConflict<cr>
 noremap ]D    :action Diff.NextConflict<cr>
-" analyze data flow in
+  " analyze data flow in
 nnoremap [f     <ESC>:action SliceBackward<cr>
 " analyze data flow out
 nnoremap ]f     <ESC>:action SliceForward<cr>
@@ -192,7 +197,7 @@ nnoremap <leader>rc 	:action RunCoverage<cr>
 " this one doesn't work, and I don't know why...
 nnoremap <leader>ro 	:action ChooseRunConfiguration<cr>
 " this one isn't consistent, but trying to work around the issue w/ _ro
-nnoremap <leader>cr 	:action ChooseRunConfiguration<cr>
+"nnoremap <leader>cr 	:action ChooseRunConfiguration<cr>
 "nnoremap <leader>rc 	:action ChooseRunConfiguration<cr>
 nnoremap <leader>re 	:action EditRunConfigurations<cr>
 nnoremap <leader>ra 	:action RunAnything<cr>
@@ -200,7 +205,7 @@ nnoremap <leader>D 		:action DebugClass<cr>
 nnoremap <leader>dd 	:action Debug<cr>
 nnoremap <leader>do		:action ChooseDebugConfiguration<cr>
 " this one isn't consistent, but trying to work around the issue w/ _do
-nnoremap <leader>cd		:action ChooseDebugConfiguration<cr>
+"nnoremap <leader>cd		:action ChooseDebugConfiguration<cr>
 nnoremap <leader>dc		:action ChooseDebugConfiguration<cr>
 nnoremap <leader>b 		:action ToggleLineBreakpoint<cr>
 
@@ -225,31 +230,36 @@ nnoremap <leader>gcc  :action Compare.SameVersion<cr>
 nnoremap <leader>gcv  :action Compare.LastVersion<cr>
 nnoremap <leader>gcl  :action Git.Log.DeepCompare<cr>
 " git blame
-nnoremap <leader>gb  :action Annotate
-nnoremap <leader>gl  :action Git.Log
+nnoremap <leader>gb  :action Annotate<cr>
+nnoremap <leader>gl  :action Git.Log<cr>
+" temporarily putting this on a submenu; hopefully it replaces all of the above
+nnoremap <leader>gg   :action GitActionTree<cr>
 
 nnoremap <leader>!   :action togglePowerModeII<cr>
+" comment commands (and compile, too)
+nnoremap <leader>c            :action CActionTree<cr>
 " window commands
-nnoremap <leader>w<tab>     :action NextEditorTab<cr>
-nnoremap <leader>w<S-Tab>   :action PrevEditorTab<cr>
-nnoremap <leader>w/         :action SplitVertically<cr>
-nnoremap <leader>w|         :action SplitVertically<cr>
-nnoremap <leader>w-         :action SplitHorizontally<cr>
-nnoremap <leader>w+         :action ChangeSplitOrientation<cr>
-nnoremap <leader>wr         :action MoveEditorToOppositeTabGroup<cr>
-" these actually split horz. or vert. and move the tab there (and focus)
-"noremap <leader>wJ        :action MoveTabDown<cr>
-"noremap <leader>wL        :action MoveTabRight<cr>
-nnoremap <leader>wJ         :action MoveEditorToOppositeTabGroup<cr>
-nnoremap <leader>wL         :action MoveEditorToOppositeTabGroup<cr>
-nnoremap <leader>wH         :action MoveEditorToOppositeTabGroup<cr>
-nnoremap <leader>wK         :action MoveEditorToOppositeTabGroup<cr>
-nnoremap <leader>wh         :action NextSplitter<cr>
-nnoremap <leader>wj         :action NextSplitter<cr>
-nnoremap <leader>wl         :action PrevSplitter<cr>
-nnoremap <leader>wk         :action PrevSplitter<cr>
-nnoremap <leader>wa         :action OpenEditorInOppositeTabGroup<cr>
-nnoremap <leader>wo         :action TabsActions<cr>
+nnoremap <leader>w            :action WindowActionTree<cr>
+" nnoremap <leader>w<tab>     :action NextEditorTab<cr>
+" nnoremap <leader>w<S-Tab>   :action PrevEditorTab<cr>
+" nnoremap <leader>w/         :action SplitVertically<cr>
+" nnoremap <leader>w|         :action SplitVertically<cr>
+" nnoremap <leader>w-         :action SplitHorizontally<cr>
+" nnoremap <leader>w+         :action ChangeSplitOrientation<cr>
+" nnoremap <leader>wr         :action MoveEditorToOppositeTabGroup<cr>
+" " these actually split horz. or vert. and move the tab there (and focus)
+" "noremap <leader>wJ        :action MoveTabDown<cr>
+" "noremap <leader>wL        :action MoveTabRight<cr>
+" nnoremap <leader>wJ         :action MoveEditorToOppositeTabGroup<cr>
+" nnoremap <leader>wL         :action MoveEditorToOppositeTabGroup<cr>
+" nnoremap <leader>wH         :action MoveEditorToOppositeTabGroup<cr>
+" nnoremap <leader>wK         :action MoveEditorToOppositeTabGroup<cr>
+" nnoremap <leader>wh         :action NextSplitter<cr>
+" nnoremap <leader>wj         :action NextSplitter<cr>
+" nnoremap <leader>wl         :action PrevSplitter<cr>
+" nnoremap <leader>wk         :action PrevSplitter<cr>
+" nnoremap <leader>wa         :action OpenEditorInOppositeTabGroup<cr>
+" nnoremap <leader>wo         :action TabsActions<cr>
 
 " Other things that we may want: 
 " Unsplit

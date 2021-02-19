@@ -1,0 +1,206 @@
+{
+  "items": [
+    { "keys": ["ctrl alt BACK_SLASH"], "id": "ReformatCode" },
+    {
+      "keys": ["ctrl alt BACK_SLASH"],
+      "id": "Haskell.ReformatCode",
+      "when": "FileExtension:hs"
+    },
+    {
+      "keys": ["ctrl alt BACK_SLASH"],
+      "id": "Cargo.RustfmtFile",
+      "when": "FileExtension:rs"
+    },
+    {
+      "keys": ["ctrl alt BACK_SLASH"],
+      "id": "GoFmtFileAction",
+      "when": "FileExtension:go"
+    },
+    {
+      "keys": ["EQUALS"],
+      "id": "CompareTwoFiles",
+      "when": { "all": ["ToolWindowActive:.*", "!InputFocused"] }
+    },
+    {
+      "id": "ErrorsActionTree",
+      "name": "Errors Action Tree",
+      "keys": ["ctrl shift meta E"],
+      "items": [
+        { "keys":  ["E"], "id":  "ShowErrorDescription"},
+        { "keys":  ["N"], "id":  "GotoNextError"},
+        { "keys":  ["shift N"], "id":  "GotoPreviousError"},
+        { "keys":  ["P"], "id":  "GotoPreviousError"}
+      ]
+    },
+    {
+      "id": "SearchActionTree",
+      "name": "Search Action Tree",
+      "keys": ["ctrl shift meta S"],
+      "items": [
+        { "keys":  ["F"], "id":  "Find", "separator-above":  "Search"},
+        { "keys":  ["shift F"], "id":  "FindInPath"},
+        { "keys":  ["R"], "id":  "Replace"},
+        { "keys":  ["shift R"], "id":  "ReplaceInPath"},
+        { "keys":  ["U"], "id":  "FindUsages"},
+        { "keys":  ["shift C"], "id":  "CallHierarchy"}
+      ]
+    },
+    {
+      "id": "RefactorActionTree",
+      "name": "Refactor Action Tree",
+      "keys": ["ctrl shift meta T"],
+      "items": [
+        { "keys":  ["E"], "id":  "RenameElement", "separator-above":  "Refactor"},
+        { "keys":  ["O"], "id":  "Refactorings.QuickListPopupAction"},
+        { "keys":  ["F"], "id":  "ReformatCode"},
+        { "keys":  ["I"], "id":  "AutoIndentLines"},
+        { "keys":  ["S"], "id":  "ChangeSignature"}
+      ]
+    },
+    {
+      "id": "CodeNavigationActionTree",
+      "name": "Navigation Action Tree",
+      "keys": ["ctrl shift meta N"],
+      "items": [
+        { "keys":  ["A"], "id": "emacsIDEAs.AceJumpWord", "separator-above":  "Navigation"},
+        { "keys":  ["I"], "id": "GotoImplementation"},
+        { "keys":  ["shift I"], "id": "QuickImplementations"},
+        { "keys":  ["S"], "id": "GotoSuperMethod"},
+        { "keys":  ["T"], "id": "GotoTest"},
+        { "keys":  ["C"], "id": "JumpToLastChange"},
+        { "keys":  ["shift C"], "id": "JumpToNextChange"},
+        { "keys":  ["F"], "id": "RecentFiles"},
+        { "keys":  ["R"], "id": "RecentLocations"},
+        { "keys":  ["shift T"], "id": "TypeHierarchy"},
+        { "keys":  ["shift M"], "id": "MethodHierarchy"}
+      ]
+    },
+    {
+      "id": "RunDebugActionTree",
+      "name": "Run and Debug Action Tree",
+      "keys": ["ctrl shift meta R"],
+      "items": [
+        { "keys":  ["R"], "id": "RunClass", "separator-above":  "Run"},
+        { "keys":  ["A"], "id": "Run"},
+        { "keys":  ["shift C"], "id":  "RunCoverage"},
+        { "keys":  ["O"], "id":  "ChooseRunConfiguration"},
+        { "keys":  ["shift A"], "id":  "RunAnything"},
+        { "keys":  ["D"], "id": "DebugClass", "separator-above":  "Debug"},
+        { "keys":  ["A"], "id": "Debug"},
+        { "keys":  ["O"], "id":  "ChooseDebugConfiguration"},
+        {
+          "keys": ["E"],
+          "name": "Edit...",
+          "separator-above": "Edit Configurations",
+          "items": [
+            {"keys": ["R"], "id": "EditRunConfigurations"},
+            {"keys": ["D"], "id": "EditDebugConfigurations"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DebugActionTree",
+      "name": "Debug Action Tree",
+      "keys": ["ctrl shift meta D"],
+      "items": [
+        { "keys":  ["D"], "id": "DebugClass", "separator-above":  "Debug"},
+        { "keys":  ["A"], "id": "Debug"},
+        { "keys":  ["O"], "id":  "ChooseDebugConfiguration"},
+        { "keys":  ["E"], "id":  "EditDebugConfigurations"}
+      ]
+    },
+    {
+      "id": "GitActionTree",
+      "name": "Git Action Tree",
+      "keys": ["ctrl shift meta G"],
+      "items": [
+        { "keys":  ["O"], "id": "Vcs.QuickListPopupAction"},
+        { "keys":  ["K"], "id": "CheckinProject"},
+        { "keys":  ["S"], "id":  "Git.Stash"},
+        { "keys":  ["B"], "id":  "Annotate"},
+        { "keys":  ["L"], "id":  "Git.Log"},
+        { "keys":  ["C"], "name":  "Compare...", "separator-above": "",
+          "items": [
+            { "keys":  ["B"], "id": "Git.CompareWithBranch"},
+            { "keys":  ["C"], "id": "Compare.SameVersion"},
+            { "keys":  ["V"], "id":  "Compare.LastVersion"},
+            { "keys":  ["L"], "id":  "Git.Log.DeepCompare"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CActionTree",
+      "name": "Compile and Comment Action Tree",
+      "keys": ["ctrl shift meta C"],
+      "items": [
+        { "keys":  ["shift C"], "id":  "CompileFile", "separator-above":  "Compile"},
+        { "keys":  ["L"], "id":  "CommentByLineComment", "separator-above":  "Comment"},
+        { "keys":  ["B"], "id":  "CommentByBlockComment"},
+        { "keys":  ["F"], "id":  "FixDocComment"},
+        { "keys":  ["O"], "id":  "CommentGroup"}
+      ]
+    },
+    {
+      "id": "WindowActionTree",
+      "name": "Window Action Tree",
+      "keys": ["ctrl shift meta W"],
+      "items": [
+        { "keys":  ["O"], "id":  "MoveEditorToOppositeTabGroup"},
+        { "keys":  ["shift O"], "id":  "OpenEditorInOppositeTabGroup"},
+        { "keys":  ["N"], "id": "NextTab"},
+        { "keys":  ["P"], "id": "PreviousTab"},
+        { "keys":  ["S"], "id":  "Switcher"},
+        { "keys":  ["J"], "id":  "NextSplitter"},
+        { "keys":  ["K"], "id":  "PrevSplitter"},
+        { "keys":  ["Z"], "id":  "ReopenClosedTab", "separator-above":  ""},
+        { "keys":  ["typed |"], "id":  "SplitVertically", "separator-above":  ""},
+        { "keys":  ["typed -"], "id":  "SplitHorizontally"},
+        { "keys":  ["typed +"], "id":  "ChangeSplitOrientation"},
+        { "keys":  ["P"], "id":  "PinActiveTabToggle", "separator-above":  ""},
+        { "keys":  ["T"], "id": "ActivateTerminalToolWindow", "separator-above": ""},
+        { "keys":  ["shift T"], "id": "Terminal.OpenInTerminal"}
+      ]
+    },
+    {
+      "keys": ["ctrl alt X"],
+      "items": [
+        { "keys": ["ctrl F"], "id": "GotoFile" },
+        { "keys": ["ctrl B", "B"], "id": "RecentFiles" },
+        { "keys": ["K", "0"], "id": "CloseContent", "separator-above": "" },
+        { "keys": ["1"], "id": "UnsplitAll" },
+        { "keys": ["2"], "id": "SplitHorizontally" },
+        { "keys": ["3"], "id": "SplitVertically" },
+        { "keys": ["O"], "id": "NextSplitter" },
+        { "keys": ["H"], "id": "$SelectAll", "separator-above": "section heading" },
+        { "keys": ["ctrl C"], "id": "Exit", "separator-above": "" }
+      ]
+    },
+    {
+      "keys": ["alt S"],
+      "items": [
+        { "keys": ["typed ."], "id": "Find" },
+        { "keys": ["alt typed %"], "id": "Replace" },
+        {
+          "keys": ["H"],
+          "separator-above": "",
+          "name": "Highlight...",
+          "items": [
+            { "keys": ["typed ."], "id": "HighlightUsagesInFile" },
+            {
+              "keys": ["N"],
+              "id": "GotoNextElementUnderCaretUsage",
+              "sticky": true
+            },
+            {
+              "keys": ["P"],
+              "id": "GotoPrevElementUnderCaretUsage",
+              "sticky": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
