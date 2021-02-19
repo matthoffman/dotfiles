@@ -240,8 +240,8 @@ nnoremap <leader>!   :action togglePowerModeII<cr>
 nnoremap <leader>c            :action CActionTree<cr>
 " window commands
 nnoremap <leader>w            :action WindowActionTree<cr>
-" nnoremap <leader>w<tab>     :action NextEditorTab<cr>
-" nnoremap <leader>w<S-Tab>   :action PrevEditorTab<cr>
+" nnoremap <leader>w<tab>     :action NextTab<cr>
+" nnoremap <leader>w<S-Tab>   :action PreviousTab<cr>
 " nnoremap <leader>w/         :action SplitVertically<cr>
 " nnoremap <leader>w|         :action SplitVertically<cr>
 " nnoremap <leader>w-         :action SplitHorizontally<cr>
