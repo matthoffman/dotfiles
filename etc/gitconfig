@@ -4,7 +4,7 @@
 	excludesfile = ~/.gitignore
 [user]
 	name = Matt Hoffman
-	email = 
+	email = matt@matthoffman.org
 
 [alias] 
 	co = checkout
@@ -29,3 +29,5 @@
 
 [pull]
 	ff = only
+[init]
+	defaultBranch = main

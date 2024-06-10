@@ -3,8 +3,25 @@ let s:darwin = has('mac')
 
 if has('nvim')
 	" set up the Python 3 virtualenv that Neovim itself will run with
-    let g:python3_host_proc = '/Users/matt/.venv/neovim/bin/python'
+    let g:python3_host_proc = '${XDG_DATA_HOME:-$HOME/.local/share}/venvs/neovim/bin/python'
 endif
+
+" Set up leaders first
+let mapleader      = ' '
+let maplocalleader = ' '
+
+" Set up new defaults introduced in vim 7
+unlet! skip_defaults_vim
+source $VIMRUNTIME/defaults.vim
+
+" A few other defaults
+set colorcolumn=88              " add ruler
+set encoding=utf-8              " utf-8 is the encoding we want to use for text files.
+set noswapfile                  " no swap files? Heresy! 
+set autoread                    " when a file has changed on disk, just load it. Don't ask.
+set autowrite                   " autosaving files is a nice feature
+
+" Whitespace defaults are down at the bottom of the file
 
 " Directory for plugins using vim-plug (https://github.com/junegunn/vim-plug)
 call plug#begin('~/.vim/plugged')
@@ -21,7 +38,7 @@ call plug#begin('~/.vim/plugged')
 " :PlugDiff	Examine changes from the previous update and the pending changes
 " :PlugSnapshot[!] [output path]	Generate script for restoring the current snapshot of the plugins
 
-" some sensible defaults
+" some sensible defaults -- not
 Plug 'tpope/vim-sensible'
 
 " Allows configurable replacement to escape key (b/c Mac...)
@@ -126,8 +143,6 @@ Plug 'solarnz/thrift.vim'
 " Initialize plugin system
 call plug#end()
 
-let mapleader      = ' '
-let maplocalleader = ' '
 
 augroup vimrc
   autocmd!
@@ -139,17 +154,27 @@ let g:easyescape_timeout = 100
 cnoremap jk <ESC>
 cnoremap kj <ESC>
 
-set autoindent
-set smartindent
 set lazyredraw
 set visualbell
 set backspace=indent,eol,start
-set incsearch
 set hidden
-set ignorecase smartcase
+
+" Sane search defaults
+set ignorecase " case insensitive search
+set smartcase  " If there are uppercase letters, become case-sensitive.
+set showmatch  " live match highlighting
+set hlsearch   " highlight matches
+set incsearch
+
+" Whitespace defaults
+set autoindent
+set smartindent
+set expandtab                       " use spaces instead of tabs.
 " Not sure if I want 4 or 2 to be the default here...?
-set tabstop=4
-set shiftwidth=4
+set tabstop=4                       " number of spaces that a tab in a file counts for
+set shiftwidth=4                    " affects how autoindentation works
+set softtabstop=4                   " when tab is pressed, only move to the next tab stop
+set shiftround                      " tab / shifting moves to closest tabstop.
 " show hidden files by default in NERDTree
 let NERDTreeShowHidden=1
 
