@@ -18,6 +18,7 @@
 	cp = cherry-pick
 	amend = commit --amend -m
 	master = !git checkout master && git pull origin 
+	main = !git checkout main && git pull origin 
 	po = push origin
 	plo = pull origin
 	unstage = reset --soft HEAD^
