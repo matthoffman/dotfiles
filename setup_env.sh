@@ -5,7 +5,7 @@ if [ ! -d "$HOME/.config/zsh" ]; then
         git clone --depth=1 --recursive https://github.com/matthoffman/zdotdir.git "$HOME/.config/zsh"
 fi
 
-if [ -f "$HOME/.zshenv" ]; then
+if [ ! -f "$HOME/.zshenv" ]; then
         ln -s "$HOME/.config/zsh/.zshenv" "$HOME/.zshenv"
 fi
 
