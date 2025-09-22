@@ -1,10 +1,6 @@
 #!/bin/bash
 
-if ! command -v git &> /dev/null
-then
-    echo "git is required."
-    exit 1
-fi
+command -v git >/dev/null 2>&1 || { echo >&2 "git is required but it's not installed.  Aborting."; exit 1; }
 
 mkdir -p "$HOME/.config"
 if [ ! -d "$HOME/.config/zsh" ]; then
