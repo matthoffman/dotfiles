@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if ! command -v git &> /dev/null
+then
+    echo "git is required."
+    exit 1
+fi
+
 mkdir -p "$HOME/.config"
 if [ ! -d "$HOME/.config/zsh" ]; then
     echo ".config/zsh does not yet exist; cloning repo"
